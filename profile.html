@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fitconnect profile</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700&family=Nunito:wght@700&family=DM+Sans:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/profile-css.css">
+</head>
+<body>
+
+<div class="desktop-container">
+  <div class="sidebar">
+    <div class="profile-section">
+      <div class="profile-avatar">
+        <img src="https://via.placeholder.com/80" alt="Tomas Mazza">
+      </div>
+      <div class="profile-info">
+        <div class="profile-name">
+          Tomas Mazza <span class="verified-icon-1">✓</span>
+        </div>
+        <div class="-tomas_mazza98">@tomas_mazza98</div>
+      </div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-label">Seguidos</div>
+        <div class="stat-value">10</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-label">Seguidores</div>
+        <div class="stat-value">1.5M</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-label">Racha</div>
+        <div class="stat-value">1 año</div>
+      </div>
+    </div>
+
+    <div class="horizontal-line-1"></div>
+
+    <nav class="sidebar-nav">
+      <ul>
+        <li><a href="#" class="active"><span class="icon-placeholder icon-home"></span> Home</a></li>
+        <li><a href="#"><span class="icon-placeholder icon-bar-chart"></span> Estadísticas</a></li>
+        <li><a href="#"><span class="icon-placeholder icon-layout"></span> Rutinas</a></li>
+        <li><a href="#"><span class="icon-placeholder icon-settings"></span> Configuración</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <div class="main-content">
+    <div class="entrenamiento-">Entrenamiento</div>
+
+    <div class="training-actions">
+      <div class="action-circle red">
+        <span class="icon-placeholder icon-plus"></span>
+      </div>
+      <div class="action-circle">
+        <span class="icon-placeholder icon-watch-later"></span>
+      </div>
+      <div class="action-circle">
+        <span class="icon-placeholder icon-watch-later"></span>
+      </div>
+      <div class="action-circle">
+        <span class="icon-placeholder icon-watch-later"></span>
+      </div>
+      <div class="action-circle">
+        <span class="icon-placeholder icon-watch-later"></span>
+      </div>
+      <div class="action-circle">
+        <span class="icon-placeholder icon-refresh"></span>
+      </div>
+    </div>
+
+    <div class="grid-container">
+      <div class="card rectangle-15">
+        <div class="card-header">
+          <div class="card-icon-circle circle-5">
+            <span class="icon-placeholder icon-air"></span>
+          </div>
+          <div class="card-title-group">
+            <div class="card-title mejor-pr-110kg">Mejor PR: 110kg</div>
+            <div class="card-subtitle sentadilla-libre">Sentadilla libre</div>
+          </div>
+          <div class="toggle-switch toggle-5 active">
+            <div class="toggle-switch-handle"></div>
+          </div>
+        </div>
+        <div class="card-content">
+          <div class="temp-display">23°C</div>
+          <div class="mode-auto">Mode: Auto</div>
+          <div class="temperature-controls">
+            <div class="temp-button rectangle-57">
+              <span class="icon-placeholder icon-remove"></span>
+            </div>
+            <div class="temp-button rectangle-59">
+              <span class="icon-placeholder icon-add"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card rectangle-16">
+        <div class="card-header">
+          <div class="card-icon-circle circle-6">
+            <span class="icon-placeholder icon-co-present"></span>
+          </div>
+          <div class="card-title-group">
+            <div class="card-title peso-actual-70kg">Peso actual: 70kg</div>
+            <div class="card-subtitle peso-deseado-80kg">Peso deseado: 80kg</div>
+          </div>
+          <div class="toggle-switch toggle-6">
+            <div class="toggle-switch-handle"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card rectangle-18">
+        <div class="card-header">
+          <div class="card-icon-circle circle-9">
+            <span class="icon-placeholder icon-brightness-low"></span>
+          </div>
+          <div class="card-title-group">
+            <div class="card-title dark-mode">Dark Mode</div>
+            <div class="card-subtitle day-mode">Day mode</div>
+          </div>
+          <div class="toggle-switch toggle-8">
+            <div class="toggle-switch-handle"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Simple toggle functionality
+  document.querySelectorAll('.toggle-switch').forEach(toggle => {
+    toggle.addEventListener('click', () => {
+      toggle.classList.toggle('active');
+    });
+  });
+</script>
+
+</body>
+</html>
