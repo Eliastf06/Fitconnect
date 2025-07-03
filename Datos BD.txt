@@ -1,0 +1,20 @@
+Base de datos alojada en Supabase
+
+Tablas:
+
+users:
+id_user [PK] uuid
+nom_user varchar
+mail varchar
+password varchar
+
+
+
+Keys:
+API anon public key:  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF1b3piam54enZ0dGthcmdoZ3hjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE1MDE0MTAsImV4cCI6MjA2NzA3NzQxMH0.nDsQhmF_kwRSUO168CDmdica6OoMN3XMSzXucyr0yDg
+
+service role key:  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF1b3piam54enZ0dGthcmdoZ3hjIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1MTUwMTQxMCwiZXhwIjoyMDY3MDc3NDEwfQ.t0uX4UECjK-T0xCatWgsG7LcU6RQ4hZwMZaK2wYGCvo
+
+JWT key:  ma2t2ksk/VT/+O7IerNIX1clQ/2MVUtg8sdl9+TOVK/82mlwaz6ctFvULhC2x6TRWWZEXja+8r20KgbzMIpbxQ==
+
+URL:  https://auozbjnxzvttkarghgxc.supabase.co

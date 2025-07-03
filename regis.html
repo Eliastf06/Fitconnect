@@ -5,11 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registrarse</title>
     <link rel="stylesheet" href="css/style-register.css">
-</head>
+    </head>
 <body>
     <div class="register-container">
         <h2>Crear Cuenta</h2>
-        <form action="#" method="POST">
+        <p id="app-message" style="color: green; font-weight: bold; margin-bottom: 15px; text-align: center; display: none;"></p>
+        <form id="registerForm">
             <div class="input-group">
                 <label for="username">Nombre de Usuario</label>
                 <input type="text" id="username" name="username" required>
@@ -32,5 +33,7 @@
             </div>
         </form>
     </div>
+
+    <script type="module" src="js/regis.js"></script>
 </body>
 </html>

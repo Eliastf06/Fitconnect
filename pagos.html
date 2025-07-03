@@ -3,24 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fitness App - Pagos</title>
+    <title>Fitconnect - Planes</title>
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Montserrat:wght@800&family=Tilt+Warp&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/pagos.css"> </head>
+    <link rel="stylesheet" href="css/pagos.css">
+</head>
 <body>
 
     <header class="header">
         <div class="logo">
-            <span class="placeholder">Fitconnect</span> </div>
-        <nav class="link-bar-3">
-            <a href="index.html">Inicio</a> <a href="#">Entrenamiento</a>
+            <span class="placeholder">Fitconnect</span>
+        </div>
+        <button class="hamburger-menu" id="hamburger-button">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </button>
+
+        <nav class="link-bar-3" id="mobile-menu"> <a href="index.html">Inicio</a>
+            <a href="#">Entrenamiento</a>
             <a href="pagos.html">Planes</a>
             <a href="#">Estadísticas</a>
             <a href="#">Rutinas</a>
             <a href="#">Configuración</a>
+
+            <div id="logged-in-actions-mobile" class="mobile-only-menu-items">
+                <a href="#" id="profile-link-mobile" class="menu-item">Mi Perfil</a>
+                <a href="#" id="logout-link-mobile" class="menu-item">Cerrar Sesión</a>
+            </div>
+            <div id="logged-out-actions-mobile" class="mobile-only-menu-items">
+                <a href="signin.html" id="login-link-mobile" class="menu-item">Iniciar Sesión</a>
+                <a href="regis.html" id="register-link-mobile" class="menu-item">Registrarse</a>
+            </div>
         </nav>
-        <div class="header-actions">
-            <button class="button-2" onclick="location.href='signin.html'">Iniciar Sesión</button>
-            <button class="button-3" onclick="location.href='regis.html'">Registrarse</button>
+
+        <div class="header-actions desktop-only-actions">
+            <button class="button-2" id="login-button" onclick="location.href='signin.html'">Iniciar Sesión</button>
+            <button class="button-3" id="register-button" onclick="location.href='regis.html'">Registrarse</button>
+
+            <div id="logged-in-actions" style="display: none;">
+                <button class="button-2" id="profile-button">Mi Perfil</button>
+                <button class="button-3" id="logout-button">Cerrar Sesión</button>
+            </div>
         </div>
     </header>
 
@@ -179,6 +202,9 @@
             </div>
         </div>
     </footer>
+
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm"></script>
+    <script type="module" src="js/pagos.js"></script>
 
 </body>
 </html>
