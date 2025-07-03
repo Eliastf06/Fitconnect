@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     registerForm.reset();
                     setTimeout(() => {
                         window.location.href = 'signin.html'; // Redirigir a la página de inicio de sesión
-                    }, 5000);
+                    }, 7000);
                 }
             } else {
                 // Esto ocurre si la confirmación de email está activa y el usuario se registra pero necesita confirmar
@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 registerForm.reset();
                 setTimeout(() => {
                     window.location.href = 'signin.html';
-                }, 5000);
+                }, 7000);
             }
 
         } catch (err) {
