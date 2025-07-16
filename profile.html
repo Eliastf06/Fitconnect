@@ -65,14 +65,19 @@
                 </div>
 
                 <div class="card">
-                    <h3><i class="fas fa-weight-hanging"></i> Peso actual:</h3>
+                    <h3><i class="fas fa-weight-hanging"></i> Peso actual/deseado:</h3>
                     <div class="input-action-group">
                         <div class="input-with-unit">
-                            <input type="number" id="currentWeightInput" value="70" min="0" step="0.1"><span>kg</span>
+                            <input type="number" id="currentWeightInput" value="70" min="0" step="0.1"><span>kg (Actual)</span>
                         </div>
                         <button class="control-button accept-button" data-field="current_weight" data-input="currentWeightInput">Aceptar</button>
                     </div>
-                    <p>Peso deseado: <span id="desiredWeightValue">80kg</span></p>
+                    <div class="input-action-group">
+                        <div class="input-with-unit">
+                            <input type="number" id="desiredWeightInput" value="80" min="0" step="0.1"><span>kg (Deseado)</span>
+                        </div>
+                        <button class="control-button accept-button" data-field="desired_weight" data-input="desiredWeightInput">Aceptar</button>
+                    </div>
                 </div>
                 
                 <div class="card large-card">
@@ -86,13 +91,74 @@
                 </div>
 
                 <div class="card">
-                    <h3><i class="fas fa-moon"></i> Dark Mode</h3>
-                    <p>Day mode</p>
-                    <label class="switch">
-                        <input type="checkbox" id="darkModeToggle">
-                        <span class="slider round"></span>
-                    </label>
+                    <h3><i class="fas fa-calculator"></i> IMC</h3>
+                    <div class="input-action-group">
+                        <div class="input-with-unit">
+                            <input type="number" id="heightCmInput" value="170" min="50" step="1"><span>cm</span>
+                        </div>
+                        <button class="control-button accept-button" data-field="height_cm" data-input="heightCmInput">Aceptar</button>
+                    </div>
+                    <p>Tu IMC: <span id="bmiValue">--</span></p>
                 </div>
+
+                <div class="card">
+                    <h3><i class="fas fa-water"></i> Agua Diaria</h3>
+                    <p>Consumo: <span id="waterIntakeMl">0</span> ml</p>
+                    <div class="goal-controls">
+                        <button class="control-button" id="addWaterButton"><i class="fas fa-plus"></i> 250ml</button>
+                        <button class="control-button" id="resetWaterButton"><i class="fas fa-redo-alt"></i> Reiniciar</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3><i class="fas fa-walking"></i> Objetivo de Pasos</h3>
+                    <div class="input-action-group">
+                        <div class="input-with-unit">
+                            <input type="number" id="dailyStepGoalInput" value="10000" min="0" step="1000"><span>pasos</span>
+                        </div>
+                        <button class="control-button accept-button" data-field="daily_step_goal" data-input="dailyStepGoalInput">Aceptar</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3><i class="fas fa-calendar-alt"></i> Última Sesión</h3>
+                    <div class="input-action-group">
+                        <input type="date" id="lastTrainingDateInput">
+                        <button class="control-button accept-button" data-field="last_training_date" data-input="lastTrainingDateInput">Guardar</button>
+                    </div>
+                    <p>Última sesión registrada: <span id="lastTrainingDateDisplay">N/A</span></p>
+                </div>
+
+                <div class="card">
+                    <h3><i class="fas fa-ruler"></i> Medida Cintura</h3>
+                    <div class="input-action-group">
+                        <div class="input-with-unit">
+                            <input type="number" id="waistCmInput" value="80" min="0" step="0.5"><span>cm</span>
+                        </div>
+                        <button class="control-button accept-button" data-field="waist_cm" data-input="waistCmInput">Aceptar</button>
+                    </div>
+                </div>
+
+                <div class="card large-card">
+                    <h3><i class="fas fa-sticky-note"></i> Notas Rápidas del Día</h3>
+                    <textarea id="dailyNotesInput" rows="4" placeholder="Escribe tus notas aquí..."></textarea>
+                    <div class="goal-controls" style="margin-top: 15px;">
+                        <button class="control-button" id="saveNotesButton"><i class="fas fa-save"></i> Guardar Notas</button>
+                        <button class="control-button" id="clearNotesButton"><i class="fas fa-eraser"></i> Limpiar</button>
+                    </div>
+                    <p class="upload-status" id="notesStatus"></p>
+                </div>
+
+                <div class="card">
+                    <h3><i class="fas fa-fire"></i> Objetivo Calorías</h3>
+                    <div class="input-action-group">
+                        <div class="input-with-unit">
+                            <input type="number" id="dailyCalorieGoalInput" value="2000" min="0" step="100"><span>kcal</span>
+                        </div>
+                        <button class="control-button accept-button" data-field="daily_calorie_goal" data-input="dailyCalorieGoalInput">Aceptar</button>
+                    </div>
+                </div>
+
             </div>
         </main>
     </div>
