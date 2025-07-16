@@ -1,148 +1,102 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fitconnect profile</title>
-<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700&family=Nunito:wght@700&family=DM+Sans:wght@700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/profile-css.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil de Usuario - Configuración</title>
+    <link rel="stylesheet" href="css/profile-css.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="profile-card">
+                <label for="profilePicInput" class="profile-pic-wrapper">
+                    <img src="http://googleusercontent.com/file_content/2" alt="Foto de perfil de usuario" class="profile-pic" id="profilePicDisplay">
+                    <div class="overlay">Cambiar Foto</div>
+                    <input type="file" id="profilePicInput" accept="image/*" style="display: none;">
+                </label>
+                <p id="uploadStatus" class="upload-status"></p>
 
-<div class="desktop-container">
-  <div class="sidebar">
-    <div class="profile-section">
-      <div class="profile-avatar">
-        <img src="https://via.placeholder.com/80" alt="Tomas Mazza">
-      </div>
-      <div class="profile-info">
-        <div class="profile-name">
-          Tomas Mazza <span class="verified-icon-1">✓</span>
-        </div>
-        <div class="-tomas_mazza98">@tomas_mazza98</div>
-      </div>
-    </div>
-
-    <div class="stats-grid">
-      <div class="stat-item">
-        <div class="stat-label">Seguidos</div>
-        <div class="stat-value">10</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-label">Seguidores</div>
-        <div class="stat-value">1.5M</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-label">Racha</div>
-        <div class="stat-value">1 año</div>
-      </div>
-    </div>
-
-    <div class="horizontal-line-1"></div>
-
-    <nav class="sidebar-nav">
-      <ul>
-        <li><a href="#" class="active"><span class="icon-placeholder icon-home"></span> Home</a></li>
-        <li><a href="#"><span class="icon-placeholder icon-bar-chart"></span> Estadísticas</a></li>
-        <li><a href="#"><span class="icon-placeholder icon-layout"></span> Rutinas</a></li>
-        <li><a href="#"><span class="icon-placeholder icon-settings"></span> Configuración</a></li>
-      </ul>
-    </nav>
-  </div>
-
-  <div class="main-content">
-    <div class="entrenamiento-">Entrenamiento</div>
-
-    <div class="training-actions">
-      <div class="action-circle red">
-        <span class="icon-placeholder icon-plus"></span>
-      </div>
-      <div class="action-circle">
-        <span class="icon-placeholder icon-watch-later"></span>
-      </div>
-      <div class="action-circle">
-        <span class="icon-placeholder icon-watch-later"></span>
-      </div>
-      <div class="action-circle">
-        <span class="icon-placeholder icon-watch-later"></span>
-      </div>
-      <div class="action-circle">
-        <span class="icon-placeholder icon-watch-later"></span>
-      </div>
-      <div class="action-circle">
-        <span class="icon-placeholder icon-refresh"></span>
-      </div>
-    </div>
-
-    <div class="grid-container">
-      <div class="card rectangle-15">
-        <div class="card-header">
-          <div class="card-icon-circle circle-5">
-            <span class="icon-placeholder icon-air"></span>
-          </div>
-          <div class="card-title-group">
-            <div class="card-title mejor-pr-110kg">Mejor PR: 110kg</div>
-            <div class="card-subtitle sentadilla-libre">Sentadilla libre</div>
-          </div>
-          <div class="toggle-switch toggle-5 active">
-            <div class="toggle-switch-handle"></div>
-          </div>
-        </div>
-        <div class="card-content">
-          <div class="temp-display">23°C</div>
-          <div class="mode-auto">Mode: Auto</div>
-          <div class="temperature-controls">
-            <div class="temp-button rectangle-57">
-              <span class="icon-placeholder icon-remove"></span>
+                <div class="profile-info">
+                    <h2 id="userName">Cargando... <i class="fas fa-check-circle verified-icon"></i></h2>
+                    <p id="userMail">Cargando correo...</p>
+                </div>
+                <div class="stats">
+                    <div class="stat-item racha-item">
+                        <span>Racha</span>
+                        <strong id="userStreak">0 <i id="streakFlame" class="fas fa-fire flame-icon hidden"></i></strong>
+                        <button class="control-button streak-button" id="streakButton">Añadir Día</button>
+                    </div>
+                </div>
             </div>
-            <div class="temp-button rectangle-59">
-              <span class="icon-placeholder icon-add"></span>
+            <nav class="navigation">
+                <ul>
+                    <li><a href="#" id="backButton"><i class="fas fa-arrow-left"></i> Volver</a></li>
+                    <li><a href="#" class="active"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="#"><i class="fas fa-chart-bar"></i> Estadísticas</a></li>
+                    <li><a href="#"><i class="fas fa-clipboard-list"></i> Rutinas</a></li>
+                    <li><a href="#"><i class="fas fa-cog"></i> Configuración</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <h1>Entrenamiento</h1>
+            <div class="training-controls">
+                <button class="control-button add-button"><i class="fas fa-plus"></i></button>
+                <button class="control-button"><i class="fas fa-clock"></i></button>
+                <button class="control-button"><i class="fas fa-clock"></i></button>
+                <button class="control-button"><i class="fas fa-clock"></i></button>
+                <button class="control-button"><i class="fas fa-redo-alt"></i></button>
             </div>
-          </div>
-        </div>
-      </div>
 
-      <div class="card rectangle-16">
-        <div class="card-header">
-          <div class="card-icon-circle circle-6">
-            <span class="icon-placeholder icon-co-present"></span>
-          </div>
-          <div class="card-title-group">
-            <div class="card-title peso-actual-70kg">Peso actual: 70kg</div>
-            <div class="card-subtitle peso-deseado-80kg">Peso deseado: 80kg</div>
-          </div>
-          <div class="toggle-switch toggle-6">
-            <div class="toggle-switch-handle"></div>
-          </div>
-        </div>
-      </div>
+            <div class="cards-grid">
+                <div class="card">
+                    <h3><i class="fas fa-dumbbell"></i> Mejor PR:</h3>
+                    <div class="input-action-group">
+                        <div class="input-with-unit">
+                            <input type="number" id="bestPrSquatInput" value="110" min="0" step="0.5"><span>kg</span>
+                        </div>
+                        <button class="control-button accept-button" data-field="best_pr_squat" data-input="bestPrSquatInput">Aceptar</button>
+                    </div>
+                    <p>Sentadilla libre</p>
+                </div>
 
-      <div class="card rectangle-18">
-        <div class="card-header">
-          <div class="card-icon-circle circle-9">
-            <span class="icon-placeholder icon-brightness-low"></span>
-          </div>
-          <div class="card-title-group">
-            <div class="card-title dark-mode">Dark Mode</div>
-            <div class="card-subtitle day-mode">Day mode</div>
-          </div>
-          <div class="toggle-switch toggle-8">
-            <div class="toggle-switch-handle"></div>
-          </div>
-        </div>
-      </div>
+                <div class="card">
+                    <h3><i class="fas fa-weight-hanging"></i> Peso actual:</h3>
+                    <div class="input-action-group">
+                        <div class="input-with-unit">
+                            <input type="number" id="currentWeightInput" value="70" min="0" step="0.1"><span>kg</span>
+                        </div>
+                        <button class="control-button accept-button" data-field="current_weight" data-input="currentWeightInput">Aceptar</button>
+                    </div>
+                    <p>Peso deseado: <span id="desiredWeightValue">80kg</span></p>
+                </div>
+                
+                <div class="card large-card">
+                    <h3><i class="fas fa-bullseye"></i> Objetivo Semanal</h3>
+                    <p>Sesiones completadas: <span id="weeklyGoalCompleted">0</span></p>
+                    <p>Meta: <span id="weeklyGoalTotal">5</span> sesiones</p>
+                    <div class="goal-controls">
+                        <button class="control-button" id="addCompletedSession"><i class="fas fa-plus"></i> Sesión</button>
+                        <button class="control-button" id="resetWeeklyGoal"><i class="fas fa-redo-alt"></i> Reiniciar</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3><i class="fas fa-moon"></i> Dark Mode</h3>
+                    <p>Day mode</p>
+                    <label class="switch">
+                        <input type="checkbox" id="darkModeToggle">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
+        </main>
     </div>
-  </div>
-</div>
-
-<script>
-  // Simple toggle functionality
-  document.querySelectorAll('.toggle-switch').forEach(toggle => {
-    toggle.addEventListener('click', () => {
-      toggle.classList.toggle('active');
-    });
-  });
-</script>
-
+    <script type="module" src="js/profile-script.js"></script>
+    <script type="module" src="js/detail-user.js"></script>
 </body>
 </html>
