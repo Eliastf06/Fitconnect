@@ -12,9 +12,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const currentWeightInput = document.getElementById('currentWeightInput');
     const currentWeightAcceptButton = document.querySelector('[data-field="current_weight"]');
-    const desiredWeightValue = document.getElementById('desiredWeightValue');
-
-    const darkModeToggle = document.getElementById('darkModeToggle');
+    const desiredWeightInput = document.getElementById('desiredWeightInput');
+    const desiredWeightAcceptButton = document.querySelector('[data-field="desired_weight"]');
 
     // Referencias para Racha
     const userStreakElement = document.getElementById('userStreak');
@@ -27,10 +26,32 @@ document.addEventListener('DOMContentLoaded', async () => {
     const addCompletedSessionButton = document.getElementById('addCompletedSession');
     const resetWeeklyGoalButton = document.getElementById('resetWeeklyGoal');
 
-    // --- Nuevas Referencias para la Foto de Perfil ---
+    // Referencias para la Foto de Perfil
     const profilePicInput = document.getElementById('profilePicInput');
     const profilePicDisplay = document.getElementById('profilePicDisplay');
     const uploadStatus = document.getElementById('uploadStatus'); // Para mostrar mensajes de carga
+
+    // --- NUEVAS REFERENCIAS DE DOM PARA LAS NUEVAS FUNCIONES ---
+    const heightCmInput = document.getElementById('heightCmInput');
+    const bmiValueElement = document.getElementById('bmiValue');
+    
+    const waterIntakeMlElement = document.getElementById('waterIntakeMl');
+    const addWaterButton = document.getElementById('addWaterButton');
+    const resetWaterButton = document.getElementById('resetWaterButton');
+
+    const dailyStepGoalInput = document.getElementById('dailyStepGoalInput');
+
+    const lastTrainingDateInput = document.getElementById('lastTrainingDateInput');
+    const lastTrainingDateDisplay = document.getElementById('lastTrainingDateDisplay');
+
+    const waistCmInput = document.getElementById('waistCmInput');
+
+    const dailyNotesInput = document.getElementById('dailyNotesInput');
+    const saveNotesButton = document.getElementById('saveNotesButton');
+    const clearNotesButton = document.getElementById('clearNotesButton');
+    const notesStatus = document.getElementById('notesStatus');
+
+    const dailyCalorieGoalInput = document.getElementById('dailyCalorieGoalInput');
 
     let currentUserId = null; // Para almacenar el ID del usuario logeado
 
@@ -76,6 +97,24 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
+    // Función para calcular y mostrar el IMC
+    function calculateAndDisplayBMI() {
+        const currentWeight = parseFloat(currentWeightInput.value);
+        const heightCm = parseFloat(heightCmInput.value);
+
+        if (!isNaN(currentWeight) && !isNaN(heightCm) && heightCm > 0) {
+            const heightM = heightCm / 100; // Convertir cm a metros
+            const bmi = currentWeight / (heightM * heightM);
+            if (bmiValueElement) {
+                bmiValueElement.textContent = bmi.toFixed(2);
+            }
+        } else {
+            if (bmiValueElement) {
+                bmiValueElement.textContent = '--';
+            }
+        }
+    }
+
     // Función para cargar los datos del perfil extendido
     async function loadUserSettings() {
         try {
@@ -116,19 +155,57 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (data) {
                 if (bestPrSquatInput) bestPrSquatInput.value = data.best_pr_squat !== null ? data.best_pr_squat : 110.00;
                 if (currentWeightInput) currentWeightInput.value = data.current_weight !== null ? data.current_weight : 70.00;
-                if (desiredWeightValue) desiredWeightValue.textContent = `${data.desired_weight !== null ? data.desired_weight : 80.00}kg`;
+                if (desiredWeightInput) desiredWeightInput.value = data.desired_weight !== null ? data.desired_weight : 80.00;
 
-                if (darkModeToggle) {
-                    darkModeToggle.checked = data.dark_mode_active !== null ? data.dark_mode_active : false;
-                    document.body.classList.toggle('dark-mode', darkModeToggle.checked);
+                // --- Carga de nuevas funciones ---
+                if (heightCmInput) heightCmInput.value = data.height_cm !== null ? data.height_cm : 170.00;
+                calculateAndDisplayBMI(); // Calcula y muestra el IMC al cargar
+
+                if (waterIntakeMlElement) waterIntakeMlElement.textContent = data.water_intake_ml !== null ? data.water_intake_ml : 0;
+                // Lógica de reseteo de agua diaria
+                const lastWaterReset = data.last_water_reset_date;
+                if (!lastWaterReset || !isSameDay(lastWaterReset, getTodayDateString())) {
+                    if (data.water_intake_ml > 0) { // Si hay agua del día anterior, resetear
+                        await updateUserSettings('water_intake_ml', 0, false);
+                        await updateUserSettings('last_water_reset_date', getTodayDateString(), false);
+                        waterIntakeMlElement.textContent = 0;
+                    }
                 }
+                
+                if (dailyStepGoalInput) dailyStepGoalInput.value = data.daily_step_goal !== null ? data.daily_step_goal : 10000;
+                
+                if (lastTrainingDateInput) {
+                    // Formato para input type="date" (YYYY-MM-DD)
+                    lastTrainingDateInput.value = data.last_training_date || ''; 
+                }
+                if (lastTrainingDateDisplay) {
+                    // Formato para mostrar en texto
+                    lastTrainingDateDisplay.textContent = data.last_training_date ? new Date(data.last_training_date).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' }) : 'N/A';
+                }
+
+                if (waistCmInput) waistCmInput.value = data.waist_cm !== null ? data.waist_cm : 80.00;
+                
+                if (dailyNotesInput) dailyNotesInput.value = data.daily_notes !== null ? data.daily_notes : '';
+                // Lógica de reseteo de notas diarias
+                const lastNotesReset = data.last_notes_date;
+                if (!lastNotesReset || !isSameDay(lastNotesReset, getTodayDateString())) {
+                    if (data.daily_notes !== '') { // Si hay notas del día anterior, resetear
+                        await updateUserSettings('daily_notes', '', false);
+                        await updateUserSettings('last_notes_date', getTodayDateString(), false);
+                        dailyNotesInput.value = '';
+                        if (notesStatus) notesStatus.textContent = '';
+                    }
+                }
+
+                if (dailyCalorieGoalInput) dailyCalorieGoalInput.value = data.daily_calorie_goal !== null ? data.daily_calorie_goal : 2000;
+
+                // --- Fin de carga de nuevas funciones ---
 
                 if (weeklyGoalCompletedElement) weeklyGoalCompletedElement.textContent = data.weekly_goal_completed !== null ? data.weekly_goal_completed : 0;
                 if (weeklyGoalTotalElement) weeklyGoalTotalElement.textContent = data.weekly_goal_total !== null ? data.weekly_goal_total : 5;
 
                 // --- Cargar foto de perfil ---
                 if (profilePicDisplay) {
-                    // Si profile_pic_url existe y no es null, úsala. Si no, usa la URL por defecto.
                     profilePicDisplay.src = data.profile_pic_url || 'http://googleusercontent.com/file_content/2';
                 }
 
@@ -183,12 +260,21 @@ document.addEventListener('DOMContentLoaded', async () => {
                     current_weight: 70.00,
                     desired_weight: 80.00,
                     best_pr_squat: 110.00,
-                    dark_mode_active: false,
                     weekly_goal_completed: 0,
                     weekly_goal_total: 5,
                     user_streak: 0,
                     last_streak_update_date: null,
-                    profile_pic_url: null // <-- Nuevo campo por defecto
+                    profile_pic_url: null,
+                    // --- NUEVOS VALORES POR DEFECTO PARA LAS NUEVAS FUNCIONES ---
+                    height_cm: 170.0,
+                    water_intake_ml: 0,
+                    last_water_reset_date: null,
+                    daily_step_goal: 10000,
+                    last_training_date: null,
+                    waist_cm: 80.0,
+                    daily_notes: '',
+                    last_notes_date: null,
+                    daily_calorie_goal: 2000
                 }
             ]);
 
@@ -216,6 +302,25 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             if (error) throw error;
             console.log(`detail-user.js: Campo ${key} actualizado a ${value}:`, data);
+            if (showAlert) {
+                // Pequeño feedback visual
+                const button = document.querySelector(`[data-field="${key}"]`);
+                if (button) {
+                    button.textContent = 'Guardado!';
+                    setTimeout(() => {
+                        button.textContent = 'Aceptar'; // O el texto original si no es 'Aceptar'
+                        // Restaurar iconos si aplica
+                        if (key === 'daily_notes') {
+                             button.innerHTML = '<i class="fas fa-save"></i> Guardar Notas';
+                        }
+                        if (key === 'daily_step_goal' || key === 'waist_cm' || key === 'height_cm' || key === 'daily_calorie_goal' || key === 'best_pr_squat' || key === 'current_weight' || key === 'desired_weight') {
+                            // No hay iconos en estos botones, solo restaurar texto
+                        } else if (key === 'last_training_date') {
+                             button.innerHTML = 'Guardar';
+                        }
+                    }, 1500);
+                }
+            }
         } catch (error) {
             console.error(`detail-user.js: Error al actualizar ${key}:`, error.message);
             if (showAlert) alert(`Error al guardar el cambio para ${key}.`);
@@ -238,24 +343,20 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         const fileExtension = file.name.split('.').pop();
-        // Usamos el ID del usuario para el nombre de la imagen para asegurar que sea única por usuario
-        // y para sobrescribir la imagen antigua si ya existe.
         const fileName = `${currentUserId}/profile_pic.${fileExtension}`; 
-        const bucketName = 'profile-pictures'; // Nombre del bucket que creaste en Supabase Storage
+        const bucketName = 'profile-pictures';
 
         try {
-            // Sube el archivo al bucket
             const { data, error } = await supabase.storage
                 .from(bucketName)
                 .upload(fileName, file, {
-                    upsert: true // Si el archivo ya existe con ese nombre, lo sobrescribe
+                    upsert: true
                 });
 
             if (error) {
                 throw error;
             }
 
-            // Obtiene la URL pública del archivo subido
             const { data: publicUrlData } = supabase.storage
                 .from(bucketName)
                 .getPublicUrl(fileName);
@@ -286,15 +387,27 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         if (currentWeightInput) currentWeightInput.disabled = true;
         if (currentWeightAcceptButton) currentWeightAcceptButton.disabled = true;
+        if (desiredWeightInput) desiredWeightInput.disabled = true;
+        if (desiredWeightAcceptButton) desiredWeightAcceptButton.disabled = true;
 
-        if (darkModeToggle) darkModeToggle.disabled = true;
         if (addCompletedSessionButton) addCompletedSessionButton.disabled = true;
         if (resetWeeklyGoalButton) resetWeeklyGoalButton.disabled = true;
         if (streakButton) streakButton.disabled = true;
 
-        // Deshabilitar input de foto de perfil
         if (profilePicInput) profilePicInput.disabled = true;
-        if (uploadStatus) uploadStatus.textContent = ''; // Limpiar mensaje de estado
+        if (uploadStatus) uploadStatus.textContent = '';
+
+        // --- Deshabilita NUEVAS FUNCIONES ---
+        if (heightCmInput) heightCmInput.disabled = true;
+        if (addWaterButton) addWaterButton.disabled = true;
+        if (resetWaterButton) resetWaterButton.disabled = true;
+        if (dailyStepGoalInput) dailyStepGoalInput.disabled = true;
+        if (lastTrainingDateInput) lastTrainingDateInput.disabled = true;
+        if (waistCmInput) waistCmInput.disabled = true;
+        if (dailyNotesInput) dailyNotesInput.disabled = true;
+        if (saveNotesButton) saveNotesButton.disabled = true;
+        if (clearNotesButton) clearNotesButton.disabled = true;
+        if (dailyCalorieGoalInput) dailyCalorieGoalInput.disabled = true;
 
         if (bestPrSquatInput) {
             bestPrSquatInput.value = '';
@@ -304,45 +417,74 @@ document.addEventListener('DOMContentLoaded', async () => {
             currentWeightInput.value = '';
             currentWeightInput.placeholder = '--';
         }
-        if (desiredWeightValue) desiredWeightValue.textContent = '--kg';
+        if (desiredWeightInput) {
+            desiredWeightInput.value = '';
+            desiredWeightInput.placeholder = '--';
+        }
         if (weeklyGoalCompletedElement) weeklyGoalCompletedElement.textContent = '--';
         if (weeklyGoalTotalElement) weeklyGoalTotalElement.textContent = '--';
         if (userStreakElement) userStreakElement.textContent = '-- ';
         if (streakFlameIcon) streakFlameIcon.classList.add('hidden');
-        if (profilePicDisplay) profilePicDisplay.src = 'http://googleusercontent.com/file_content/2'; // Restablecer a imagen por defecto
+        if (profilePicDisplay) profilePicDisplay.src = 'http://googleusercontent.com/file_content/2';
+
+        // --- Limpia y deshabilita NUEVAS FUNCIONES ---
+        if (heightCmInput) { heightCmInput.value = ''; heightCmInput.placeholder = '--'; }
+        if (bmiValueElement) bmiValueElement.textContent = '--';
+        if (waterIntakeMlElement) waterIntakeMlElement.textContent = '--';
+        if (dailyStepGoalInput) { dailyStepGoalInput.value = ''; dailyStepGoalInput.placeholder = '--'; }
+        if (lastTrainingDateInput) lastTrainingDateInput.value = '';
+        if (lastTrainingDateDisplay) lastTrainingDateDisplay.textContent = 'N/A';
+        if (waistCmInput) { waistCmInput.value = ''; waistCmInput.placeholder = '--'; }
+        if (dailyNotesInput) { dailyNotesInput.value = ''; dailyNotesInput.placeholder = 'Iniciar sesión para añadir notas...'; }
+        if (notesStatus) notesStatus.textContent = '';
+        if (dailyCalorieGoalInput) { dailyCalorieGoalInput.value = ''; dailyCalorieGoalInput.placeholder = '--'; }
+
+        // Deshabilitar todos los botones de aceptar de forma genérica
+        document.querySelectorAll('.control-button.accept-button').forEach(button => {
+            button.disabled = true;
+        });
     }
 
 
     // --- Event Listeners para los botones de Aceptar ---
-    if (bestPrSquatAcceptButton) {
-        bestPrSquatAcceptButton.addEventListener('click', () => {
-            const value = parseFloat(bestPrSquatInput.value);
-            if (!isNaN(value)) {
-                updateUserSettings('best_pr_squat', value);
+    // Se mantiene la lógica existente
+    document.querySelectorAll('.control-button.accept-button[data-field]').forEach(button => {
+        button.addEventListener('click', async () => {
+            const field = button.dataset.field;
+            const inputId = button.dataset.input;
+            const inputElement = document.getElementById(inputId);
+            
+            if (!inputElement) return;
+
+            let value;
+            if (inputElement.type === 'number') {
+                value = parseFloat(inputElement.value);
+                if (isNaN(value)) {
+                    alert('Por favor, ingresa un número válido.');
+                    return;
+                }
+            } else if (inputElement.type === 'date') {
+                value = inputElement.value; // Ya viene en formato YYYY-MM-DD
+                if (!value) {
+                    alert('Por favor, selecciona una fecha válida.');
+                    return;
+                }
             } else {
-                alert('Por favor, ingresa un número válido para el Mejor PR.');
+                value = inputElement.value;
+            }
+            
+            await updateUserSettings(field, value);
+
+            // Actualizar IMC si se cambia peso o altura
+            if (field === 'current_weight' || field === 'height_cm') {
+                calculateAndDisplayBMI();
+            }
+            // Actualizar display de fecha si se cambia
+            if (field === 'last_training_date' && lastTrainingDateDisplay && value) {
+                lastTrainingDateDisplay.textContent = new Date(value).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
             }
         });
-    }
-
-    if (currentWeightAcceptButton) {
-        currentWeightAcceptButton.addEventListener('click', () => {
-            const value = parseFloat(currentWeightInput.value);
-            if (!isNaN(value)) {
-                updateUserSettings('current_weight', value);
-            } else {
-                alert('Por favor, ingresa un número válido para el Peso actual.');
-            }
-        });
-    }
-
-    // --- Event Listener para el toggle de Dark Mode ---
-    if (darkModeToggle) {
-        darkModeToggle.addEventListener('change', (event) => {
-            updateUserSettings('dark_mode_active', event.target.checked);
-            document.body.classList.toggle('dark-mode', event.target.checked);
-        });
-    }
+    });
 
     // --- Lógica del botón de Racha ---
     if (streakButton) {
@@ -444,6 +586,86 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         });
     }
+
+    // --- NUEVOS EVENT LISTENERS PARA LAS NUEVAS FUNCIONES ---
+
+    // Event Listeners para recalculado de IMC
+    if (currentWeightInput) currentWeightInput.addEventListener('input', calculateAndDisplayBMI);
+    if (heightCmInput) heightCmInput.addEventListener('input', calculateAndDisplayBMI);
+
+    // Event Listeners para Consumo de Agua
+    if (addWaterButton) {
+        addWaterButton.addEventListener('click', async () => {
+            if (!currentUserId) {
+                alert('Debes iniciar sesión para registrar el consumo de agua.');
+                return;
+            }
+            let currentWater = parseInt(waterIntakeMlElement.textContent);
+            currentWater += 250; // Añadir 250ml
+            waterIntakeMlElement.textContent = currentWater;
+            await updateUserSettings('water_intake_ml', currentWater, false);
+            await updateUserSettings('last_water_reset_date', getTodayDateString(), false); // Marcar que se actualizó hoy
+        });
+    }
+    if (resetWaterButton) {
+        resetWaterButton.addEventListener('click', async () => {
+            if (!currentUserId) {
+                alert('Debes iniciar sesión para reiniciar el consumo de agua.');
+                return;
+            }
+            if (confirm('¿Reiniciar el consumo de agua del día?')) {
+                waterIntakeMlElement.textContent = 0;
+                await updateUserSettings('water_intake_ml', 0, false);
+                await updateUserSettings('last_water_reset_date', getTodayDateString(), false); // Marcar que se reinició hoy
+            }
+        });
+    }
+
+    // Event Listeners para Notas Rápidas
+    if (saveNotesButton) {
+        saveNotesButton.addEventListener('click', async () => {
+            if (!currentUserId) {
+                alert('Debes iniciar sesión para guardar notas.');
+                return;
+            }
+            const notes = dailyNotesInput.value;
+            if (notesStatus) {
+                notesStatus.textContent = 'Guardando...';
+                notesStatus.style.color = 'orange';
+            }
+            await updateUserSettings('daily_notes', notes, false);
+            await updateUserSettings('last_notes_date', getTodayDateString(), false);
+            if (notesStatus) {
+                notesStatus.textContent = 'Notas guardadas.';
+                notesStatus.style.color = 'green';
+                setTimeout(() => { notesStatus.textContent = ''; }, 2000);
+            }
+        });
+    }
+
+    if (clearNotesButton) {
+        clearNotesButton.addEventListener('click', async () => {
+            if (!currentUserId) {
+                alert('Debes iniciar sesión para limpiar notas.');
+                return;
+            }
+            if (confirm('¿Borrar las notas de hoy?')) {
+                dailyNotesInput.value = '';
+                if (notesStatus) {
+                    notesStatus.textContent = 'Limpiando...';
+                    notesStatus.style.color = 'orange';
+                }
+                await updateUserSettings('daily_notes', '', false);
+                await updateUserSettings('last_notes_date', getTodayDateString(), false); // Se marca para hoy, para que no se recarguen las viejas
+                if (notesStatus) {
+                    notesStatus.textContent = 'Notas limpiadas.';
+                    notesStatus.style.color = 'green';
+                    setTimeout(() => { notesStatus.textContent = ''; }, 2000);
+                }
+            }
+        });
+    }
+
 
     // Cargar los settings al inicio
     await loadUserSettings();
