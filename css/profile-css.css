@@ -11,19 +11,6 @@
     --hover-color: #fdecea; /* Rojo muy claro para hover */
 }
 
-/* Dark Mode - Variaciones oscuras del rojo y grises */
-body.dark-mode {
-    --primary-bg: #1a2227; /* Gris azulado oscuro (similar a fondos oscuros comunes) */
-    --secondary-bg: #644b4b; /* Gris azulado un poco más claro */
-    --card-bg: #2c373d; /* Gris azulado para tarjetas oscuras */
-    --text-color: #f34a47; /* Rojo más vivo para texto en oscuro */
-    --accent-color: #ea2522; /* Rojo acento más intenso en oscuro */
-    --accent-rgb: 229, 57, 53;
-    --border-color: #2a363c; /* Gris azulado para bordes oscuros */
-    --shadow-color: rgba(0, 0, 0, 0.3);
-    --hover-color: #4f5b62; /* Gris azulado para hover en oscuro */
-}
-
 body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
@@ -34,7 +21,6 @@ body {
     min-height: 100vh;
     background-color: var(--primary-bg);
     color: var(--text-color);
-    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .container {
@@ -394,54 +380,6 @@ body {
     border-radius: 5px;
 }
 
-/* Toggle Switch (Solo para Dark Mode) */
-.switch {
-    position: absolute;
-    top: 25px;
-    right: 25px;
-    display: inline-block;
-    width: 45px;
-    height: 25px;
-}
-
-.switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-
-.slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    transition: .4s;
-    border-radius: 25px;
-}
-
-.slider:before {
-    position: absolute;
-    content: "";
-    height: 19px;
-    width: 19px;
-    left: 3px;
-    bottom: 3px;
-    background-color: white;
-    transition: .4s;
-    border-radius: 50%;
-}
-
-input:checked + .slider {
-    background-color: var(--accent-color);
-}
-
-input:checked + .slider:before {
-    transform: translateX(20px);
-}
-
 /* Estilos para el card de Objetivo Semanal */
 .goal-controls {
     display: flex;
@@ -466,6 +404,28 @@ input:checked + .slider:before {
 .goal-controls .control-button:hover:not(:disabled) {
     background-color: #e53935;
 }
+
+/* NUEVO: Estilo para textarea de notas */
+textarea#dailyNotesInput {
+    width: calc(100% - 20px);
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    background-color: var(--primary-bg);
+    color: var(--text-color);
+    font-size: 0.95em;
+    resize: vertical; /* Permite redimensionar verticalmente */
+    min-height: 80px;
+    box-sizing: border-box; /* Incluye padding y borde en el ancho total */
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+textarea#dailyNotesInput:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(var(--accent-rgb), 0.2);
+}
+
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
